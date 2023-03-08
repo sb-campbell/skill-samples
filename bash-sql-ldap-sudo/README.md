@@ -16,6 +16,7 @@ This script queries lists of hosts from the LOB's host/asset inventory database 
 - Test and verify DB and LDAP connectivity
   - optionally, email admins if connectivity issues
 - Add command-line switch options to execute each section in isolation - Script has 3 basic sections... (1) query DB and gather host list, (2) format LDIF, (3) apply LDIF to LDAP servers (suppliers)
+- Obfuscate DB and LDAP usernames and passwords using a wallet encryption tool such as walletMgr
 
 # File Tree
 
