@@ -1,11 +1,10 @@
 # Architecture
 
-```
-Bash shell script
-Oracle SQL
-LDAP (ldapsearch, ldapmodify)
-sudo
-```
+- Bash shell script
+- Oracle SQL
+- LDAP (ldapsearch, ldapmodify)
+- sudo
+
 # Purpose
 
 Sudo policies in LDAP for sudoHost authorization... 
