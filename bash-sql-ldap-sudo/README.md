@@ -6,7 +6,6 @@ Oracle SQL
 LDAP (ldapsearch, ldapmodify)
 sudo
 ```
-
 # Purpose
 
 Sudo policies in LDAP for sudoHost authorization... 
@@ -35,7 +34,6 @@ This script queries lists of hosts from the LOB's host/asset inventory database 
 │   └── sample_prod2_policy_hosts.sql
 └── sql_output/
 ```
-
 # Sample cron entries
 
 ```
@@ -43,7 +41,6 @@ This script queries lists of hosts from the LOB's host/asset inventory database 
 05 * * * * /u01/{script path}/policy_hosts_inventory.sh {policy1} >/dev/null 2>&1
 35 * * * * /u01/{script path}/policy_hosts_inventory.sh {policy2} >/dev/null 2>&1
 ```
-
 # Sample Oracle database TNS config
 
 ```
