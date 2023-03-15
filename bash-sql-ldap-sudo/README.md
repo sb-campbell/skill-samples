@@ -4,7 +4,7 @@
 
 Sudo policies in LDAP for sudoHost authorization...
 
-This script queries lists of hosts from the LOB's host/asset inventory database using varying criteria and adds the hosts to the 'sudoHost' list in LDAP for the relevant sudo policies.
+This is an ETL project which demonstrates the use of bash shell scripting, SQL queries against an Oracle database, transformation of the result-sets, and integration with LDAP (ldapsearch and ldapmodify) to modify host-based access authorization policies for sudo (sudoers). The script queries lists of hosts from the LOB's host/asset inventory database using varying criteria and adds the hosts to the 'sudoHost' list in LDAP for the relevant sudo policies.
 
 ### Architecture
 

@@ -1,6 +1,6 @@
 # Shawn Campbell - Sample Skills Repository
 
-This public repo provides a sampling of projects which represent my work and skills in the relevant areas. Please feel free to browse. I've provided important details and suggested enhancements in the README.md files associated with each project.
+A sampling of projects which represent my work and skills in the relevant areas. See local README.md file in each project folder for full details of the project and potential enhancements.
 
 #### [Bash, Oracle (SQL), LDAP, Sudo](./bash-sql-ldap-sudo/)
 
