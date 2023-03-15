@@ -1,0 +1,18 @@
+shared:
+#  box: oraclebase/oracle-8
+  box: bento/oracle-8.6
+  non_rotational: 'on'
+
+node1:
+  vm_name: ol8-19c-dg1
+  mem_size: 4096
+  cpus: 2
+  public_ip: 192.168.56.171
+  u01_disk: ./ol8-19c-dg1-u01.vdi
+
+node2:
+  vm_name: ol8-19c-dg2
+  mem_size: 4096
+  cpus: 2
+  public_ip: 192.168.56.172
+  u01_disk: ./ol8-19c-dg2-u01.vdi
