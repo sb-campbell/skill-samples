@@ -47,7 +47,7 @@ BACKUP_LDIF_FILE="${LDIF_DIR}/${POLICY_NAME}_${RUNDATE}.ldif"        # backup co
 if [ -z "${1}" ]
   then
     echo ""
-    echo "Please specify policy (currently only cust3pp or cust3ppsh)!"
+    echo "Please specify policy!"
     echo ""
     exit
   else
