@@ -6,7 +6,7 @@ This is a sophisticated build which automates the deployment of a local 2-node V
 
 ### Credit
 
-Thanks to [Tim Hall]([ORACLE-BASE - About Tim Hall and the Website](https://oracle-base.com/misc/site-info)) of [Oracle-Base.com](https://oracle-base.com) for both the inspiration and excellent training and foundation provided for this build...
+Thanks to [Tim Hall](https://oracle-base.com/misc/site-info) of [Oracle-Base.com](https://oracle-base.com) for both the inspiration and excellent training and foundation provided for this build...
 
 > [Data Guard Physical Standby Setup Using the Data Guard Broker in Oracle Database 19c](https://oracle-base.com/articles/19c/data-guard-setup-using-broker-19c)
 
