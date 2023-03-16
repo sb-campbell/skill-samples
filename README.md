@@ -8,7 +8,7 @@ This is an ETL project which demonstrates the use of bash shell scripting, SQL q
 
 #### [Bash, Vagrant, VirtualBox, Oracle RDBMS (dual-node Data Guard Physical Stand-by Databases)](./bash-oracle-vagrant/)
 
-This project demonstrates the utilization of Vagrant to create a local dual-node VirtualBox cluster of Oracle RDBMS databases in a Data Guard physical standby configuration.  
+This project demonstrates the utilization of Vagrant to create a local dual-node VirtualBox VM cluster hosting Oracle databases in a Data Guard physical standby configuration.  
 
 #### To-Dos...
 
