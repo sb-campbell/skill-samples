@@ -40,7 +40,7 @@ This is an ETL project which demonstrates the use of bash shell scripting, SQL q
 ### Sample cron entries
 
 ```
-\# Sudo policy host lists - 1 entry per policy
+# Sudo policy host lists - 1 entry per policy
 05 * * * * /u01/{script path}/policy_hosts_inventory.sh {policy1} >/dev/null 2>&1
 35 * * * * /u01/{script path}/policy_hosts_inventory.sh {policy2} >/dev/null 2>&1
 ```
