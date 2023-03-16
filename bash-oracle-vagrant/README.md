@@ -2,7 +2,7 @@
 
 ### Purpose/Objective
 
-This is a sophisticated build which automates the deployment of a local 2-node VM test environment to host an Oracle 19c Data Guard standby database cluster. It is a Vagrant deployment of VirtualBox VMs using an Oracle Linux 8 box foundation ([vagrant box repo](https://app.vagrantup.com/boxes/search?utf8=%E2%9C%93&sort=updated&provider=&q=bento%2Foracle)). 
+This build automates the deployment of a local 2-node VM environment to host an Oracle 19c Data Guard standby database cluster. It is a Vagrant deployment of VirtualBox VMs using an Oracle Linux 8 box foundation ([vagrant box repo](https://app.vagrantup.com/boxes/search?utf8=%E2%9C%93&sort=updated&provider=&q=bento%2Foracle)). 
 
 ### Credit
 

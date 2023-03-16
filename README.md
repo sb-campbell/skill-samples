@@ -4,11 +4,11 @@ A sampling of projects which represent my work and skills in the relevant areas.
 
 #### [Bash, Oracle (SQL), LDAP, Sudo](./bash-sql-ldap-sudo/)
 
-This is an ETL project which demonstrates the use of bash shell scripting, SQL queries against an Oracle database, transformation of the result-sets, and integration with LDAP (ldapsearch and ldapmodify) to modify host-based access authorization policies for sudo (sudoers).
+This is an ETL project which demonstrates the use of bash shell scripting, SQL queries against an Oracle database, transformation of result-sets, and integration with LDAP (ldapsearch and ldapmodify) in order to modify host-based access authorization policies for sudo (sudoers).
 
 #### [Bash, Vagrant, VirtualBox, Oracle RDBMS (dual-node Data Guard Physical Stand-by Databases)](./bash-oracle-vagrant/)
 
-This demonstration utilizes Vagrant to create a local dual-node VirtualBox environment useful for development or testing of Oracle RDBMS databases in a Data Guard physical standby configuration.  
+This project demonstrates the utilization of Vagrant to create a local dual-node VirtualBox cluster of Oracle RDBMS databases in a Data Guard physical standby configuration.  
 
 #### To-Dos...
 
