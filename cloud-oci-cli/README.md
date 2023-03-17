@@ -2,9 +2,9 @@
 
 ### Purpose/Objective
 
-This Bash script demonstrates utilization of the OCI Cloud CLI to extract current inventories of compute instances by tenancy and compartment including hostnames, associated VNICs, IPs, subnets and domains. 
+This Bash script demonstrates utilization of the OCI Cloud CLI to extract current compute instance inventories by tenancy and compartment including hostnames, associated VNICs, IPs, subnets and domains. 
 
-The resulting JSON output is process using JQuery-like syntax and parsed into double-proxied (2x bastion/jump hosts) SSH config files, ansible inventories and /etc/hosts configs.
+The resulting JSON output is parsed using JQuery-like syntax and processed into double-proxied (2x bastion/jump hosts) SSH config files, ansible inventories and /etc/hosts configs.
 
 ### Architecture
 
