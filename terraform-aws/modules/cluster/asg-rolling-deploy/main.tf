@@ -9,6 +9,26 @@ terraform {
   }
 }
 
+####################
+# Data gathering
+####################
+
+# EC2 instance type
+data "aws_ec2_instance_type" "instance" {
+  instance_type = var.instance_type
+}
+
+# local variable declarations
+locals {
+  tcp_protocol = "tcp"
+  all_ips      = ["0.0.0.0/0"]
+}
+
+####################
+# Resources - ASG, launch configuration, 
+####################
+
+# NOTE - launch_configurations have been deprecated in favor of launch_templates
 resource "aws_launch_configuration" "example" {
   image_id        = var.ami
   instance_type   = var.instance_type
@@ -25,15 +45,16 @@ resource "aws_launch_configuration" "example" {
   }
 }
 
+# autoscaling_group
 resource "aws_autoscaling_group" "example" {
   name                 = var.cluster_name
   launch_configuration = aws_launch_configuration.example.name
 
-  vpc_zone_identifier  = var.subnet_ids
+  vpc_zone_identifier = var.subnet_ids
 
   # Configure integrations with a load balancer
-  target_group_arns    = var.target_group_arns
-  health_check_type    = var.health_check_type
+  target_group_arns = var.target_group_arns
+  health_check_type = var.health_check_type
 
   min_size = var.min_size
   max_size = var.max_size
@@ -54,7 +75,7 @@ resource "aws_autoscaling_group" "example" {
 
   dynamic "tag" {
     for_each = {
-      for key, value in var.custom_tags:
+      for key, value in var.custom_tags :
       key => upper(value)
       if key != "Name"
     }
@@ -75,6 +96,7 @@ resource "aws_autoscaling_group" "example" {
 
 }
 
+# autoscaling_schedules
 resource "aws_autoscaling_schedule" "scale_out_during_business_hours" {
   count = var.enable_autoscaling ? 1 : 0
 
@@ -97,6 +119,10 @@ resource "aws_autoscaling_schedule" "scale_in_at_night" {
   autoscaling_group_name = aws_autoscaling_group.example.name
 }
 
+####################
+# Resources - security_group and security_group_rule
+####################
+
 resource "aws_security_group" "instance" {
   name = "${var.cluster_name}-instance"
 }
@@ -110,6 +136,10 @@ resource "aws_security_group_rule" "allow_server_http_inbound" {
   protocol    = local.tcp_protocol
   cidr_blocks = local.all_ips
 }
+
+####################
+# Resources - cloudwatch metric alarms
+####################
 
 resource "aws_cloudwatch_metric_alarm" "high_cpu_utilization" {
   alarm_name  = "${var.cluster_name}-high-cpu-utilization"
@@ -147,11 +177,3 @@ resource "aws_cloudwatch_metric_alarm" "low_cpu_credit_balance" {
   unit                = "Count"
 }
 
-data "aws_ec2_instance_type" "instance" {
-  instance_type = var.instance_type
-}
-
-locals {
-  tcp_protocol = "tcp"
-  all_ips      = ["0.0.0.0/0"]
-}
