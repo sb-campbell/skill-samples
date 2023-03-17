@@ -102,30 +102,17 @@ Thanks to [Yevgeniy Brikman](https://www.ybrikman.com/) of [Gruntwork.io](https:
 
 ### Build Instructions
 
-Execute the following to deploy a functioning Data Guard installation...
+This project demonstrates the use of Terraform modules to deploy sets of AWS resources for multiple environments (ie. prod/stage). There are examples for either stand-alone builds or for the full environment.
 
-Start the first node (primary database) and wait for it to complete...
+** Stand-alone... **
 
-```
-cd node1
-vagrant up
-```
+Deploy the [RDS MySQL DB](./examples/mysql), [ALB](./examples/alb), and [ASG & EC2s](./examples/asg) per the instructions in each README.md
 
-Start the second node (standby database with configured DataGuard broker) and wait for it to complete...
+** Prod environment stack... **
 
-```
-cd ../node2
-vagrant up
-```
+Deploy the [RDS MySQL DB](./live/prod/data-stores/mysql), followed by the [ALB, listener, SGs, ASG and EC2s](./live/prod/services/hello-world-app) per the instructions in each README.md
 
-## Turn Off or Destroy the System
+** Stage environment stack... **
 
-Execute the following to cleanly shutdown or destroy the system...
+Deploy the [RDS MySQL DB](./live/stage/data-stores/mysql), followed by the [ALB, listener, SGs, ASG and EC2s](./live/stage/services/hello-world-app) per the instructions in each README.md
 
-```
-cd ../node2
-vagrant halt {or} destroy
-
-cd ../node1
-vagrant halt {or} destroy
-```
