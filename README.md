@@ -10,8 +10,6 @@ This project demonstrates the utilization of Terraform 'Infrastructure as Code' 
 
 This Bash script demonstrates utilization of the OCI Cloud CLI to extract current compute instance inventories by tenancy and compartment including hostnames, associated VNICs, IPs, subnets and domains.
 
-The resulting JSON output is parsed using JQuery-like syntax and processed into double-proxied (2x bastion/jump hosts) SSH config files, ansible inventories and /etc/hosts configs.
-
 ### [Bash, Vagrant, VirtualBox, Oracle RDBMS (dual-node Data Guard Physical Stand-by Databases)](./bash-oracle-vagrant/)
 
 This project demonstrates the utilization of Vagrant to create a local dual-node VirtualBox VM cluster hosting Oracle databases in a Data Guard physical standby configuration.  
