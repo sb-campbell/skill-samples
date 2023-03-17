@@ -104,15 +104,14 @@ Thanks to [Yevgeniy Brikman](https://www.ybrikman.com/) of [Gruntwork.io](https:
 
 This project demonstrates the use of Terraform modules to deploy sets of AWS resources for multiple environments (ie. prod/stage). There are examples for either stand-alone builds or for the full environment.
 
-** Stand-alone... **
+**Stand-alone...**
 
-Deploy the [RDS MySQL DB](./examples/mysql), [ALB](./examples/alb), and [ASG & EC2s](./examples/asg) per the instructions in each README.md
+Deploy the [RDS MySQL DB](./examples/mysql), [ALB](./examples/alb), and [ASG & EC2s](./examples/asg) individually per the instructions in each README.md
 
-** Prod environment stack... **
+**Prod environment stack...**
 
 Deploy the [RDS MySQL DB](./live/prod/data-stores/mysql), followed by the [ALB, listener, SGs, ASG and EC2s](./live/prod/services/hello-world-app) per the instructions in each README.md
 
-** Stage environment stack... **
+**Stage environment stack...**
 
 Deploy the [RDS MySQL DB](./live/stage/data-stores/mysql), followed by the [ALB, listener, SGs, ASG and EC2s](./live/stage/services/hello-world-app) per the instructions in each README.md
-
