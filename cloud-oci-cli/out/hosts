@@ -1,0 +1,7 @@
+# PROD {region1} host IP, FQDN, short hostname
+
+# PROD {region2} host IP, FQDN, short hostname
+
+# STAGE {region1} host IP, FQDN, short hostname
+
+# STAGE {region2} host IP, FQDN, short hostname

@@ -1,0 +1,32 @@
+[stage:children]
+{region1}_stage
+{region2}_stage
+
+[{region1}_stage:children]
+{region1}_stage_batch1
+{region1}_stage_batch2
+{region1}_stage_other
+
+[{region2}_stage:children]
+{region2}_stage_batch1
+{region2}_stage_batch2
+{region2}_stage_other
+
+[{region1}_stage_batch1] 
+{host} ansible_host={ip}
+
+[{region1}_stage_batch2] 
+{host} ansible_host={ip}
+
+[{region1}_stage_other] 
+{host} ansible_host={ip}
+
+[{region2}_stage_batch1] 
+{host} ansible_host={ip}
+
+[{region2}_stage_batch2] 
+{host} ansible_host={ip}
+
+[{region2}_stage_other] 
+{host} ansible_host={ip}
+

@@ -1,0 +1,36 @@
+[prod:children]
+{region1}_prod
+{region2}_prod
+{region1}_other
+{region2}_other
+
+[{region1}_prod:children]
+{region1}_prod_batch1
+{region1}_prod_batch2
+{region1}_prod_other
+
+[{region2}_prod:children]
+{region2}_prod_batch1
+{region2}_prod_batch2
+{region2}_prod_other
+
+[{region1}_prod_batch1] 
+{host} ansible_host={ip}
+
+[{region1}_prod_batch2] 
+{host} ansible_host={ip}
+
+[{region1}_prod_other] 
+{host} ansible_host={ip}
+
+[{region2}_prod_batch1] 
+{host} ansible_host={ip}
+
+[{region2}_prod_batch2] 
+{host} ansible_host={ip}
+
+[{region2}_prod_other] 
+{host} ansible_host={ip}
+
+
+

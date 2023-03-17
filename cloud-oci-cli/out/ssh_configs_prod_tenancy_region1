@@ -1,0 +1,18 @@
+#### {region1} PROD #####################
+Host {bastion FQDN}
+    ForwardAgent yes
+  
+# jump host
+Host {jumphost1}
+    HostName {jumphost1_IP}
+    ProxyCommand ssh -q -W %h:%p {bastion FQDN}
+
+Host {jumphost2}
+    HostName {jumphost2_IP}
+    ProxyCommand ssh -q -W %h:%p {bastion FQDN}
+
+Host {host1} {host1_ip}
+    Hostname {host1_ip}
+    ProxyCommand /bin/sh -c 'ssh -q -W %h:%p {jumphost1} || ssh -q -W %h:%p {jumphost2}'
+
+...
