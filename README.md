@@ -16,6 +16,10 @@ The resulting JSON output is parsed using JQuery-like syntax and processed into 
 
 This project demonstrates the utilization of Vagrant to create a local dual-node VirtualBox VM cluster hosting Oracle databases in a Data Guard physical standby configuration.  
 
+### [Bash, Oracle (SQL), LDAP, Sudo](./bash-sql-ldap-sudo/)
+
+This is an ETL project which demonstrates the use of bash shell scripting, SQL queries against an Oracle database, transformation of result-sets, and integration with LDAP (ldapsearch and ldapmodify) in order to modify host-based access authorization policies for sudo (sudoers).
+
 ### To-Dos...
 
 - python, rest - emds assetloader
