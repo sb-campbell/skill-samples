@@ -8,7 +8,7 @@ This project demonstrates the utilization of Terraform 'Infrastructure as Code' 
 
 ### [Cloud (OCI) CLI - Compute Inventory Queries](./cloud-oci-cli/)
 
-This Bash script demonstrates utilization of the OCI Cloud CLI to extract current compute instance inventories by tenancy and compartment including hostnames, associated VNICs, IPs, subnets and domains.
+This project demonstrates utilization of the OCI Cloud CLI to extract current compute instance inventories by tenancy and compartment including hostnames, associated VNICs, IPs, subnets and domains.
 
 ### [Bash, Vagrant, VirtualBox, Oracle RDBMS (dual-node Data Guard Physical Stand-by Databases)](./bash-oracle-vagrant/)
 
