@@ -1,0 +1,73 @@
+#!/usr/bin/env bash
+
+PWFILE="/etc/passwd"
+TMPPWFILE="${PWFILE}_tmp"
+NSSWITCH="/etc/nsswitch.conf"
+TMPNSSWITCH="/etc/nsswitch.conf_tmp"
+TS=$(date +%Y%m%d_%H%M%S)
+export STATUS=0
+# use a copy so we make safe writes
+# so we don't bork up the passwd file
+NETGROUPS=( {{ allowed_netgroups | join(" ") | default('idm_test') }} )
+umask 0077
+pwck -r |grep "does not exist" |sed 's/ does not exist//' |awk '{print $NF}' |xargs mkdir
+
+cp -p "$PWFILE" "$PWFILE.$TS"
+cp -p "$PWFILE" "$TMPPWFILE"
+for netgroup in "${NETGROUPS[@]}"; do
+    if (grep -q "^+@$netgroup" "$TMPPWFILE"); then
+        test -n "$DEBUG" && echo "found $netgroup in pw file"
+        continue
+    else
+        test -n "$DEBUG" && echo "adding $netgroup to pw file"
+        echo "+@$netgroup" >> "$TMPPWFILE"
+    fi
+done
+
+
+PWFILE_LC="$(wc -l $PWFILE | cut -d' ' -f 1)"
+TMPPWFILE_LC="$(wc -l $TMPPWFILE | cut -d' ' -f 1)"
+
+if [ "$TMPPWFILE_LC" -gt "$PWFILE_LC" ];then
+    test -n "$DEBUG" && echo "$PWFILE seems OK"
+    cp -p "$TMPPWFILE" "$PWFILE"
+    chmod 0644 "$PWFILE"
+    rm -f "$TMPPWFILE"
+elif [ "$TMPPWFILE_LC" -eq "$PWFILE_LC" ];then
+    test -n "$DEBUG" && echo "$PWFILE ok no updates"
+    rm -f "$TMPPWFILE"
+else
+    echo "$PWFILE problem found with $PWFILE -- restoring and exiting"
+    cp -p "$PWFILE.$TS" "$PWFILE"
+    exit 1
+fi
+
+
+if (pwck -r); then
+    echo "pwck OK"
+else
+    echo "pwck Failed -- restoring and exiting."
+    cp -p "$PWFILE.$TS" "$PWFILE"
+    exit 1
+fi
+
+# enable compat mode to allow "+@[netgroup]" syntax in /etc/passwd
+cp -p "$NSSWITCH" "$NSSWITCH.$TS"
+cp -p "$NSSWITCH" "$TMPNSSWITCH"
+sed -i 's/^passwd:.*$/passwd: compat/' "$TMPNSSWITCH";
+sed -i 's/^shadow:.*$/shadow: compat/' "$TMPNSSWITCH";
+
+if (grep -q "^passwd_compat:" "$TMPNSSWITCH"); then
+    sed -i 's/^passwd_compat:.*$/passwd_compat: sss/' "$TMPNSSWITCH"
+else
+    echo "passwd_compat: sss" >> "$TMPNSSWITCH"
+fi
+
+if (grep -q "^shadow_compat:" "$TMPNSSWITCH"); then
+    sed -i 's/^shadow_compat:.*$/shadow_compat: sss/' "$TMPNSSWITCH"
+else
+    echo "shadow_compat: sss" >> "$TMPNSSWITCH"
+fi
+
+cp -p "$TMPNSSWITCH" "$NSSWITCH"
+rm -f "$TMPNSSWITCH"

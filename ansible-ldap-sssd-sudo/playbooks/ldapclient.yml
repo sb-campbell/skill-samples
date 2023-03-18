@@ -1,0 +1,150 @@
+# Execution steps
+# 1 - uninstall oddjob-mkhomedir
+# 2 - Install sssd
+# 3 - create empty /etc/ldap-config/cacerts/
+# 4 - add cacert file
+# 5 - add sssd.conf
+# 6 - run authconfig
+# 7 - add fix-local-999-group.sh script
+# 8 - run fix-local-999-group.sh script
+# 9 - add netgroup compat update script
+# 10 - run netgroup compat update script
+# 11 - run all the handlers now before tests
+# 12 - cleanup temporary scripts
+# 13 - test ldap client for netgroup
+# 14 - test ldap client for user account
+#####
+---
+
+- hosts: all
+  vars:
+    cacert_file: "example.pem"
+    getent_test_user: "{test user}"
+    allowed_netgroups:
+      - {list of allowed netgroups}
+  handlers:
+    - name: enable sssd
+      ansible.builtin.service: name="sssd" enabled=yes
+
+    - name: restart sshd
+      ansible.builtin.service: name="sshd" state=restarted
+
+    - name: restart sssd
+      ansible.builtin.service: name="sssd" state=started
+
+  tasks:
+    - name: 1 - uninstall oddjob-mkhomedir
+      package: name={{ item }} state=absent update_cache=yes
+      with_items:
+        - "oddjob-mkhomedir"
+      tags:
+        - oddjob-mkhomedir-uninst
+
+    - name: 2 - Install sssd
+      package: name={{ item }} state=present update_cache=yes
+      loop:
+        - "sssd"
+        - "sssd-ldap"
+        - "sssd-tools"
+        - "authconfig"
+      tags:
+        - sssdinstall
+
+    - name: 3 - create empty /etc/ldap-config/cacerts/
+      file: path=/etc/openldap/cacerts state=directory mode=0755
+      tags:
+        - cacert
+        - sssdinstall
+        - sssd_conf
+
+    - name: 4 - add cacert file
+      copy:
+        src: group_files/cacerts/{{ cacert_file }}
+        dest: /etc/openldap/cacerts/{{ cacert_file }}
+        mode: 0644
+      tags:
+        - cacert
+        - sssdinstall
+        - sssd_conf
+
+    - name: 5 - add sssd.conf
+      template: src=group_templates/sssd.conf.j2 dest=/etc/sssd/sssd.conf owner=root group=root mode=0600
+      tags:
+        - sssdinstall
+        - sssd_conf
+
+    - name: 6 - run authconfig
+      command: authconfig --enablecachecreds --enablesssd --enablesssdauth --enablemkhomedir --updateall
+      tags:
+        - authconfig
+
+    - name: 7 - add fix-local-999-group.sh script
+      copy: src=group_files/fix-local-999-group.sh dest=/tmp/fix-local-999-group.sh owner=root group=root mode=0700
+      tags:
+        - fix_gid_999
+
+    - name: 8 - run fix-local-999-group.sh script
+      command: /tmp/fix-local-999-group.sh
+      tags:
+        - fix_gid_999
+        
+    - name: 9 - add netgroup compat update script
+      template: src=group_templates/setup-netgroup-compat.sh.j2 dest=/tmp/setup-netgroup-compat.sh owner=root group=root mode=0700
+      tags:
+        - update_nsswitch
+
+    - name: 10 - run netgroup compat update script
+      command: /tmp/setup-netgroup-compat.sh
+      notify:
+        - enable sssd
+        - restart sshd
+        - restart sssd
+      tags:
+        - update_nsswitch
+
+    - name: 11 - run all the handlers now before tests
+      meta: flush_handlers
+      tags:
+        - services
+
+    - name: 12 - cleanup temporary scripts
+      file: path={{ item }} state=absent
+      loop:
+        - "/tmp/setup-netgroup-compat.sh"
+        - "/tmp/fix-local-999-group.sh"
+
+    - name: 13 - test ldap client for netgroup
+      command: getent netgroup {{ item }}
+      register: ldap_test_netgroup
+      failed_when: False
+      changed_when: False
+      with_items: "{{ allowed_netgroups }}"
+      until: ldap_test_netgroup.rc == 0
+      retries: 10
+      delay: 2
+      tags:
+        - test_ldap
+
+    - debug:
+        msg: "Warning: getent netgroup test failed. rc = {{ item.rc }} Please test manually."
+      when: item.rc != 0
+      with_items: "{{ ldap_test_netgroup.results }}"
+      tags:
+         - test_ldap
+
+    - name: 14 - test ldap client for user account
+      command: getent passwd {{ getent_test_user | default('jcomenat') }}
+      register: ldap_test_result
+      failed_when: False
+      changed_when: False
+      retries: 10
+      delay: 2
+      tags:
+         - test_ldap
+
+    - debug:
+        msg: "Warning: getent passwd test failed. rc = {{ ldap_test_result.rc }} Please test manually."
+      when: ldap_test_result.rc != 0
+      failed_when: False
+      tags:
+         - test_ldap

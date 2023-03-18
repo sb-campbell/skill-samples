@@ -1,0 +1,48 @@
+# Execution steps
+# 1 - upgrade sudo
+# 2 - make cacerts dir
+# 3 - add cacert file
+# 4 - create /etc/sudo-ldap.conf
+# 5 - add sudoers to /etc/nsswitch.conf
+#####
+---
+# "when" syntax for OS ver:
+# when: ansible_distribution_major_version == "8"
+# when: ansible_distribution_major_version == "7"
+# when: ansible_distribution_major_version == "6"
+- hosts: all
+  vars:
+    cacert_file: "example.pem"
+    cacert_dir: "/etc/openldap/cacerts"
+
+  tasks:
+    - name: 1 - upgrade sudo
+      yum: name=sudo state=latest
+      tags: sudo-upgrade
+
+    - name: 2 - make cacerts dir
+      file: path={{ cacert_dir }} state=directory mode=0755
+      tags:
+        - upload-packages
+        - download-packages
+        - remote-package_dir
+
+    - name: 3 - add cacert file
+      copy:
+        src: group_files/cacerts/{{ cacert_file }}
+        dest: /etc/openldap/cacerts/{{ cacert_file }}
+        mode: 0644
+
+    - name: 4 - create /etc/sudo-ldap.conf
+      template: src=group_templates/sudo-ldap.conf.j2 dest=/etc/sudo-ldap.conf owner=root group=root mode=0600
+      tags:
+        - sudo
+        - sudo_ldap_conf
+
+    - name: 5 - add sudoers to /etc/nsswitch.conf
+      lineinfile: 
+        path: /etc/nsswitch.conf
+        regexp: "^sudoers:" 
+        line: "sudoers: ldap files"
+      tags:
+        - nsswitch

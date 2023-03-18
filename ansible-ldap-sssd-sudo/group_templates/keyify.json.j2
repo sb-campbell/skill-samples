@@ -1,0 +1,10 @@
+{
+  "BaseDN": "{base_ldap_dn ie. dc=example,dc=com}",
+  "DialTimeout": 5,
+  "KeyAttribute": "sshPublicKey",
+  "LDAPServers": ldaps://{IP addr of LDAP server 1},ldaps://{IP addr of LDAP server 2},
+  "RootCADir": "{{ cacert_dir | default('/etc/openldap/cacerts') }}",
+  "UserAttribute": "uid",
+  "BindDN": "{{ proxy_user | default('{dn of LDAP proxy user ie. cn=proxyuser,ou=adminusers,dc=example,dc=com}') }}",
+  "BindPW": "{{ proxy_pw | default('{proxy_user dn password}') }}"
+}

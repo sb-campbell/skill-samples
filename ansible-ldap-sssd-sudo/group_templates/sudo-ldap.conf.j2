@@ -1,0 +1,11 @@
+uri            ldaps://{ldap host ip 1},ldaps://{ldap host ip 2}
+bind_timelimit 30
+timelimit 30
+sudoers_base   ou=SUDOers,dc=example,dc=com
+sudoers_timed yes
+binddn  {{ proxy_user | default('cn=proxyuser,ou=adminusers,dc=example,dc=com') }}
+bindpw  {{ proxy_pw | default('{proxy user password}') }}
+ssl on
+tls_checkpeer yes # verify server SSL certificate
+tls_cacertfile /etc/openldap/cacerts/{{ cacert_file | default('example.pem') }}
+tls_reqcert allow

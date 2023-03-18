@@ -1,0 +1,6 @@
+---
+- import_playbook: ldapclient.yml
+
+- import_playbook: sudo_client_configure.yml
+
+- import_playbook: keyify.yml

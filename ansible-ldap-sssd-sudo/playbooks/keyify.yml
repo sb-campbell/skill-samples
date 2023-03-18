@@ -1,0 +1,93 @@
+# Execution steps
+# 1 - Install python-ldap
+# 2 - create keyify.json
+# 3 - copy keyify script
+# 4 - selinux setsebool authlogin_nsswitch_use_ldap
+# 5 - update sshd_config
+#####
+---
+
+- hosts: all
+  vars:
+  tasks:
+    - name: 1 - Install python-ldap
+      package: name={{ item }} state=present update_cache=yes
+      with_items:
+        - "python-ldap"
+      tags:
+        - python_ldap_pkg
+
+    - name: 2 - create keyify.json
+      template:
+        src: group_templates/keyify.json.j2
+        dest: /etc/ssh/keyify.json
+        group: nobody
+        mode: 0640
+      tags:
+        - create_config
+
+    - name: 3 - copy keyify script
+      copy:
+        src: group_files/keyify
+        dest: /usr/local/sbin/
+        group: nobody
+        mode: 0750
+      tags:
+        - copy_script
+
+    - name: setup keyify and back-out on failure
+      block:
+        - name: 4 - selinux setsebool authlogin_nsswitch_use_ldap
+          ansible.posix.seboolean:
+            name: authlogin_nsswitch_use_ldap
+            state: yes
+            persistent: yes
+          when: ansible_selinux is defined and ansible_selinux != False and ansible_selinux.status == 'enabled'
+          tags:
+            - sshd_config
+
+        - name: 5 - Add authorizedKeysCommand to sshd_config
+          lineinfile: 
+            dest: /etc/ssh/sshd_config
+            line: "AuthorizedKeysCommand /usr/local/sbin/keyify %u"
+            state: present
+            backup: yes
+          tags:
+            - sshd_config
+
+        - name: 6 - Add authorizedKeysCommandUser to sshd_config
+          lineinfile: 
+            dest: /etc/ssh/sshd_config
+            line: "AuthorizedKeysCommandUser nobody"
+            state: present
+            backup: yes
+          tags:
+            - sshd_config
+
+        - name: restart sshd
+          service: 
+            name: sshd
+            state: restarted
+          tags:
+            - sshd_config
+
+      rescue:
+        #  if the block above failed and sshd won't start,
+        #  remove all lines starting with AuthorizedKeysCommand*
+        #  from sshd_config and start up the daemon again
+        - name: restore sshd_config
+          lineinfile:
+            dest: /etc/ssh/sshd_config
+            regexp: "^AuthorizedKeysCommand"
+            state: absent
+          tags:
+            - restore_sshd_config
+            - sshd_config
+
+        - name: start sshd
+          service:
+            name: sshd
+            state: started
+          tags:
+            - restore_sshd_config
+            - sshd_config

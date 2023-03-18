@@ -1,0 +1,46 @@
+#!/usr/bin/perl
+# Copyright: 
+# Author: 
+# Description: Enumerate ansible/role/tasks, and create TOC.
+
+# Usage:  bin/autonum_tasks roles/dsee/tasks/main.yml
+use strict;
+use warnings;
+
+my $file = $ARGV[0] or die "Pls specify role/tasks file to process!\n";
+
+open my $input, "+<", $file or die "Failed to read the file.\n";
+my @data = <$input>;
+
+# Update tasks with numbers.
+my @toc;
+my $i = 1;
+for (@data) {
+    if (s/^(- name: )(\d+ - )?(.*)/$1$i - $3/) {
+        push @toc, "$i - $3";
+        $i++;
+    } elsif (s/^(\s{1,6}- name: )(\d+ - )?(.*)/$1$i - $3/) {
+        push @toc, "$i - $3";
+        $i++;
+    }
+}
+
+# Add TOC.
+my $data = join "", @data;
+$_ = "# $_" for @toc;
+my $toc    = join "\n", @toc;
+my $header = "# Execution steps";
+my $footer = "#####";
+
+if ($data =~ /^$header/m) {
+  $data =~ s/^($header).*^($footer)$/$1\n$toc\n$2/ms;
+}
+else {
+  $data = "$header\n$toc\n$footer\n$data";
+}
+
+truncate $input, 0 or die "Failed to truncate.\n";
+seek $input, 0, 0;
+print $input $data;
+close $input or die "Failed to close the file.\n";
+

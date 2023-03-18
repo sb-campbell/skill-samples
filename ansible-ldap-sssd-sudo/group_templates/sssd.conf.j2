@@ -1,0 +1,41 @@
+[sssd]
+config_file_version = 2
+services = nss, pam
+domains = LOCAL, LDAP
+
+[nss]
+entry_cache_nowait_percentage = 50
+filter_users = ALLLOCAL
+
+[pam]
+offline_credentials_expiration = 1
+
+[domain/LOCAL]
+debug_level = 3
+enumerate = true
+id_provider = proxy
+auth_provider = none
+access_provider = permit
+proxy_lib_name = files
+
+[domain/LDAP]
+debug_level = 3
+id_provider = ldap
+auth_provider = ldap
+ldap_search_base = dc=example,dc=com
+ldap_schema = rfc2307
+ldap_access_order = filter
+ldap_tls_reqcert = allow
+ldap_tls_cacert = /etc/openldap/cacerts/example.pem
+ldap_uri = ldaps://{ldap host IP 1},ldaps://i{ldap host ip 2}
+ldap_access_filter = (objectClass=posixAccount)
+ldap_user_authorized_host = (!host)
+ldap_user_search_base = ou=people,dc=example,dc=com
+ldap_group_search_base = ou=group,dc=example,dc=com
+ldap_netgroup_search_base = ou=netgroup,dc=example,dc=com
+ldap_network_timeout = 3
+enumerate = false
+cache_credentials = true
+entry_cache_timeout = 600
+ldap_default_bind_dn = cn=proxyuser,ou=adminusers,dc=example,dc=com
+ldap_default_authtok = {proxy user password}

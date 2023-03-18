@@ -1,0 +1,84 @@
+#!/usr/bin/env python
+
+from __future__ import print_function
+
+import sys
+#sys.path.insert(1, '/usr/lib/python2.7/site-packages')
+
+import ldap
+import re
+import random
+import json
+
+ldap.set_option(ldap.OPT_X_TLS_REQUIRE_CERT, ldap.OPT_X_TLS_NEVER)
+
+def err(error):
+    sys.exit((error))
+
+if len(sys.argv) < 2:
+    sys.exit('Usage: %s <uid>' % sys.argv[0])
+
+max_lines = 50
+config_dir="/etc/ssh/"
+keyify_config = config_dir + '/keyify.json'
+
+try:
+    config_fh = open(keyify_config, 'rb')
+except (IOError, OSError) as _e:
+    print(_e)
+    sys.exit(1)
+
+if len(config_fh.readlines()) > max_lines:
+    print("file too large, aborting")
+    config_fh.close()
+    sys.exit(1)
+
+config_fh.seek(0)
+config = json.loads(config_fh.read())
+config_fh.close()
+
+server = ""
+servers = config.get('LDAPServers')
+basedn = config.get('BaseDN')
+binddn = config.get('BindDN')
+bindpw = config.get('BindPW')
+cadir = config.get('RootCADir')
+pubkeyattr = config.get('KeyAttribute')
+userattr = config.get('UserAttribute')
+
+filter = "(" + userattr + "=" + sys.argv[1] + ")"
+
+for s in servers:
+    if re.match("^ldaps:\/\/.+$", s.lower()):
+        server = s
+        break
+
+if server == "":
+    sys.exit(1)
+
+l = ldap.initialize(server)
+l.protocol_version = ldap.VERSION3
+l.set_option(ldap.OPT_X_TLS_NEWCTX, 0)
+l.set_option(ldap.OPT_X_TLS_REQUIRE_CERT, ldap.OPT_X_TLS_NEVER)
+l.set_option(ldap.OPT_NETWORK_TIMEOUT, 10)
+
+
+# We need to try to load our PEM files for the private certs
+def bind_with_dir(dir):
+    ldap.OPT_X_TLS_CACERTDIR = dir
+    l.simple_bind_s(binddn, bindpw)
+
+try:
+    l.simple_bind_s(binddn, bindpw)
+except:
+    try:
+        bind_with_dir(cadir)
+    except:
+        bind_with_dir("/etc/ldap-config/cacerts/")
+
+results = l.search_s(basedn,ldap.SCOPE_SUBTREE,filter, [str(pubkeyattr)])
+
+for dn, entry in results:
+    for n, k in entry.items():
+        for i in k:
+            print(i.decode('utf-8'))
