@@ -25,6 +25,5 @@ This is an ETL project which demonstrates the use of bash shell scripting, SQL q
 ### To-Dos...
 
 - python, rest - emds assetloader
-- ansible project
 - bash - Kevin's pb log analysis script
 - perl - original assetloader script
