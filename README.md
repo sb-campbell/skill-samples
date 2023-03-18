@@ -14,9 +14,9 @@ This project demonstrates utilization of the OCI Cloud CLI to extract current co
 
 This project demonstrates the utilization of Vagrant to create a local dual-node VirtualBox VM cluster hosting Oracle databases in a Data Guard physical standby configuration.  
 
-### [Ansible, Bash, .j2 templates](./ansible-ldap-sssd-sudo/)
+### [Ansible, Bash, .j2 templates for sssd.conf and sudo_ldap.conf](./ansible-ldap-sssd-sudo/)
 
-This project demonstrates the utilization of Ansible, .j2 templates and Bash shell scripts to configure authN/AuthZ services on Linux clients to utilize LDAP, Sudo_LDAP and automatic authorization of LDAP stored ssh public keys.
+This project demonstrates the utilization of Ansible, .j2 templates (sssd.conf and sudo_ldap.conf, nsswitch, etc.) and Bash shell scripts to configure authN/AuthZ services on Linux clients to utilize LDAP, Sudo_LDAP and automatic authorization of LDAP stored ssh public keys.
 
 ### [Bash, Oracle (SQL), LDAP, Sudo](./bash-sql-ldap-sudo/)
 
