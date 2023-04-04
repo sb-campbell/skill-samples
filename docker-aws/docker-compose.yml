@@ -1,11 +1,11 @@
 version: "3"
 services:
   client:
-    image: "sbcampbe/multi-client"
+    image: "{DockerHub acct}/multi-client"
     mem_limit: 128m
     hostname: client
   server:
-    image: "sbcampbe/multi-server"
+    image: "{DockerHub acct}/multi-server"
     mem_limit: 128m
     hostname: api
     environment:
@@ -17,14 +17,14 @@ services:
       - PGPASSWORD=$PGPASSWORD
       - PGPORT=$PGPORT
   worker:
-    image: "sbcampbe/multi-worker"
+    image: "{DockerHub acct}/multi-worker"
     mem_limit: 128m
     hostname: worker
     environment:
       - REDIS_HOST=$REDIS_HOST
       - REDIS_PORT=$REDIS_PORT
   nginx:
-    image: "sbcampbe/multi-nginx"
+    image: "{DockerHub acct}/multi-nginx"
     mem_limit: 128m
     hostname: nginx
     ports:
