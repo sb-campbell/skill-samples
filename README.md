@@ -6,6 +6,10 @@ A sampling of projects which represent my work and skills in the relevant areas.
 
 This project demonstrates the utilization of Terraform 'Infrastructure as Code' (IaC) for the deployments to AWS of an RDS MySQL database, ELB application load balancer and listener, EC2 auto-scaling group, and associated security groups.
 
+### [Docker, TravisCI, AWS (Elastic Beanstalk, RDS-Postgres, Elasticache-Redis), GitHub](./docker-aws/)
+
+This project represents a CI/CD workflow utilizing Docker containerization, GitHub source-control, Travis CI testing and AWS deployment to an Elastic Beanstalk application environment, with multi-tiered nginx routing to React node.js web, API and app servers, and SQL and in-memory database back-ends.
+
 ### [Cloud (OCI) CLI - Compute Inventory Queries](./cloud-oci-cli/)
 
 This project demonstrates utilization of the OCI Cloud CLI to extract current compute instance inventories by tenancy and compartment including hostnames, associated VNICs, IPs, subnets and domains, all used to build ssh config, ansible inventory and /etc/hosts files.

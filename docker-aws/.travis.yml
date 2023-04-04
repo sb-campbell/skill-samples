@@ -1,0 +1,36 @@
+sudo: required
+language: generic
+
+services:
+  - docker
+
+before_install:
+  - docker build -t sbcampbe/react-test -f ./client/Dockerfile.dev ./client
+
+script:
+  - docker run -e CI=true sbcampbe/react-test npm test
+
+after_success:
+  - docker build -t sbcampbe/multi-client ./client
+  - docker build -t sbcampbe/multi-nginx ./nginx
+  - docker build -t sbcampbe/multi-server ./server
+  - docker build -t sbcampbe/multi-worker ./worker
+  # Log in to the docker CLI
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+  # Take those images and push them to docker hub
+  - docker push sbcampbe/multi-client
+  - docker push sbcampbe/multi-nginx
+  - docker push sbcampbe/multi-server
+  - docker push sbcampbe/multi-worker
+
+deploy:
+  provider: elasticbeanstalk
+  region: 'us-east-2'
+  app: 'multi-docker'
+  env: 'MultiDocker-env'
+  bucket_name: 'elasticbeanstalk-us-east-2-674665124550'
+  bucket_path: 'docker-multi'
+  on:
+    branch: master
+  access_key_id: $AWS_ACCESS_KEY
+  secret_access_key: $AWS_SECRET_KEY
