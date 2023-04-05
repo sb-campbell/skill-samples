@@ -8,7 +8,7 @@ This project demonstrates the utilization of Terraform 'Infrastructure as Code' 
 
 ### [Docker, TravisCI, AWS (Elastic Beanstalk, RDS-Postgres, Elasticache-Redis), GitHub](./docker-aws/)
 
-This project represents a CI/CD workflow utilizing Docker containerization, GitHub source-control, Travis CI testing and AWS deployment to an Elastic Beanstalk application environment, with multi-tiered nginx routing to React node.js web, API and app servers, and SQL and in-memory database back-ends.
+This project demonstrates a complex CI/CD workflow utilizing Docker containerization, GitHub source-control, Travis CI testing and AWS deployment to an Elastic Beanstalk application environment, with multi-tiered nginx routing to React node.js web, API and app servers, and SQL and in-memory database back-ends.
 
 ### [Cloud (OCI) CLI - Compute Inventory Queries](./cloud-oci-cli/)
 

@@ -1,10 +1,10 @@
-# Multi-tiered React node.js application to AWS utilizing Docker containerization
+# Multi-tiered React node.js application on AWS utilizing Docker containerization
 
-A Fibonacci Sequence Generator as a complex, multi-tiered web application.
+This is a Fibonacci Sequence Generator over-architected as a complex, multi-tiered web application.
 
 ### Purpose/Objective
 
-This project represents a CI/CD workflow utilizing Docker containerization, GitHub source-control, Travis CI testing and AWS deployment. The architecture is deployed to Elastic Beanstalk application environment, utilizing multi-tiered nginx routing to React node.js web, API and app servers, and SQL and in-memory database back-ends.
+This project represents a CI/CD workflow utilizing Docker containerization, GitHub source-control, Travis CI testing and AWS deployment. The architecture is deployed to an Elastic Beanstalk application environment, utilizes multi-tiered nginx routing to React node.js web, API and app servers, and SQL and in-memory database back-ends.
 
 ### Credit
 
