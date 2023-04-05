@@ -14,6 +14,10 @@ Thanks to [Stephen Grider](https://www.linkedin.com/in/stephengrider/) for both 
 
 ### Architecture
 
+![Application Architecture](./docker-aws-architecture.png)
+
+### Architecture Tools
+
 * Docker
 * GitHub
 * TravisCI
@@ -21,9 +25,9 @@ Thanks to [Stephen Grider](https://www.linkedin.com/in/stephengrider/) for both 
 * React
 * Nginx
 * AWS
-** Elastic Beanstalk
-** RDS Postgresql
-** Elasticache Redis
+  * Elastic Beanstalk
+  * RDS Postgresql
+  * Elasticache Redis
 
 ### Required Software
 
@@ -87,4 +91,3 @@ Thanks to [Stephen Grider](https://www.linkedin.com/in/stephengrider/) for both 
     ├── node_modules
     └── package.json
 ```
-
