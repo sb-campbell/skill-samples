@@ -16,8 +16,6 @@ Thanks to [Stephen Grider](https://www.linkedin.com/in/stephengrider/) for both 
 
 ![Application Architecture](./docker-aws-architecture.png)
 
-### Architecture Tools
-
 * Docker
 * GitHub
 * TravisCI
