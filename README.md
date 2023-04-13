@@ -12,7 +12,7 @@ This project demonstrates a complex CI/CD workflow utilizing Docker containeriza
 
 ### [Kubernetes, Docker, TravisCI, GCP (GKE, Google Load Balancer), GitHub](./kubernetes-docker-gcp/)
 
-This project demonstrates the above complex CI/CD workflow utilizing Docker containerization, GitHub source-control, Travis CI testing and deployment to Kubernetes on GCP GKE, with routing utilizing a Google Load Balancer via Ingress-Nginx to multi-tiered React node.js web, API and app servers, and PostgreSQL and Redis in-memory database back-ends.
+This project demonstrates the above complex CI/CD workflow utilizing Docker containerization, GitHub source-control, Travis CI testing and deployment to Kubernetes on GCP GKE, with routing utilizing a Google Load Balancer via Ingress-Nginx to multi-tiered React node.js web, API and app servers, and PostgreSQL and Redis in-memory database back-ends. SSL cert registration for HTTPS with LetsEncrypt.com via cert-manager is also demonstrated.
 
 ### [Cloud (OCI) CLI - Compute Inventory Queries](./cloud-oci-cli/)
 

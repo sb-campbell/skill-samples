@@ -4,7 +4,7 @@ This is a Fibonacci Sequence Generator over-architected as a complex, multi-tier
 
 ### Purpose/Objective
 
-This project represents a CI/CD workflow utilizing Docker containerization, GitHub source-control, Travis CI testing and Kubernetes deployment. The architecture is deployed to a Google Kubernetes Engine (GKE) cluster on GCP, utilizes ingress-nginx routing to multi-tiered React node.js web, API and app servers, and PostgreSQL and Redis in-memory database back-ends.
+This project represents a CI/CD workflow utilizing Docker containerization, GitHub source-control, Travis CI testing and Kubernetes deployment. The architecture is deployed to a Google Kubernetes Engine (GKE) cluster on GCP, utilizes ingress-nginx routing to multi-tiered React node.js web, API and app servers, and PostgreSQL and Redis in-memory database back-ends. SSL cert registration for HTTPS with LetsEncrypt.com via cert-manager is also demonstrated.
 
 ### Credit
 
