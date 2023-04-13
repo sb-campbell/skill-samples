@@ -1,0 +1,44 @@
+apiVersion: skaffold/v2beta12
+kind: Config
+deploy:
+  kubectl:
+    # kubectl configs for skaffold to manage
+    manifests:
+      - ./k8s/*
+build:
+  local:
+    # do not push changes to hub/repository, keep local
+    push: false
+  # array of containers we want skaffold to manage
+  artifacts:
+    # Docker Hub image
+    - image: cygnetops/client-skaffold
+      context: client
+      docker:
+        dockerfile: Dockerfile.dev
+      # use Mode 2, inject file changes into containers
+      sync:
+        # watch these files for changes and merge them into container
+        manual:
+          - src: "src/**/*.js"
+            dest: .
+          - src: "src/**/*.css"
+            dest: .
+          - src: "src/**/*.html"
+            dest: .
+    - image: cygnetops/worker-skaffold
+      context: worker
+      docker:
+        dockerfile: Dockerfile.dev
+      sync:
+        manual:
+          - src: "*.js"
+            dest: .
+    - image: cygnetops/server-skaffold
+      context: server
+      docker:
+        dockerfile: Dockerfile.dev
+      sync:
+        manual:
+          - src: "*.js"
+            dest: .

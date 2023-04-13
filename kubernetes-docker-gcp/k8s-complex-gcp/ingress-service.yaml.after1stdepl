@@ -1,0 +1,55 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ingress-service
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/use-regex: 'true'
+    nginx.ingress.kubernetes.io/rewrite-target: /$1
+    # instruct nginx to expect cert from 'letsencrypt-prod'
+    cert-manager.io/cluster-issuer: 'letsencrypt-prod'
+    # force https via redirect, true is a quoted string due to yaml specific meaning
+    nginx.ingress.kubernetes.io/ssl-redirect: 'true'
+spec:
+  # instruct nginx serve https and define where to get cert
+  tls:
+    - hosts:                       # define your domains/sub-domains
+        - yourdomain.com
+        - www.yourdomain.com
+      secretName: yourdomain-com   # name of secret which stores cert from certificate-manager
+  rules:
+    - host: yourdomain.com
+      http:
+        paths:
+          - path: /?(.*)
+            pathType: Prefix
+            backend:
+              service:
+                name: client-cluster-ip-service
+                port:
+                  number: 3000
+          - path: /api/?(.*)
+            pathType: Prefix
+            backend:
+              service:
+                name: server-cluster-ip-service
+                port:
+                  number: 5000
+    # must duplicate rules for each domain/sub-domain, recognized by nginx as a separate host, see GitHub issues, not DRY
+    - host: www.yourdomain.com
+      http:
+        paths:
+          - path: /?(.*)
+            pathType: Prefix
+            backend:
+              service:
+                name: client-cluster-ip-service
+                port:
+                  number: 3000
+          - path: /api/?(.*)
+            pathType: Prefix
+            backend:
+              service:
+                name: server-cluster-ip-service
+                port:
+                  number: 5000

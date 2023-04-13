@@ -1,0 +1,32 @@
+# official docs...
+# https://cert-manager.io/docs/tutorials/acme/http-validation/#issuing-an-acme-certificate-using-http-validation
+# this is the official docs version...
+#--#apiVersion: cert-manager.io/v1
+#--#kind: Certificate
+#--#metadata:
+#--#  name: example-com
+#--#  namespace: default
+#--#spec:
+#--#  secretName: example-com-tls
+#--#  issuerRef:
+#--#    name: letsencrypt-staging
+#--#  commonName: example.com
+#--#  dnsNames:
+#--#  - www.example.com
+# this is Stephen's version
+apiVersion: cert-manager.io/v1
+
+kind: Certificate
+metadata:
+  name: yourdomain-com-tls
+spec:
+  secretName: yourdomain-com         # the K8s secret for storing the cert
+  issuerRef:
+    name: letsencrypt-prod
+    kind: ClusterIssuer
+  commonName: yourdomain.com         # domain name - specified on cert
+  dnsNames:                          # list - aliases - specified on cert
+    - yourdomain.com
+    - www.yourdomain.com
+# troubleshooting...
+# https://www.udemy.com/course/docker-and-kubernetes-the-complete-guide/learn/lecture/11628364#questions/8558842/
